@@ -1,2 +1,2 @@
 # my_tasks - all my ALX tasks
-## testing git ssh
+## testing git bash
