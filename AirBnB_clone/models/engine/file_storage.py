@@ -21,12 +21,22 @@ class FileStorage():
 
     def save(self):
         """Serializes __objects to JSON file"""
-        with open(self.__file_path, mode="w+", encoding="utf-8") as f:
-            f.write(json.dumps(self.__objects))
+        if os.path.exists(self.__file_path):
+            with open(self.__file_path, mode="a+", encoding="utf-8") as f:
+                data = json.load(f)
+                for key, value in data.items():
+                    data[key] = self.__objects
+                f.seek(0)
+                json.dump(data, f)
+                #f.write(json.dumps(self.__objects))
+        else:
+            with open(self.__file_path, mode="w", encoding="utf-8") as f:
+                f.write(json.dumps(self.__objects))
 
     def reload(self):
         """Deserializes JSON file"""
         if os.path.exists(self.__file_path):
-            with open(self.__file_path, encoding="utf-8") as f:
+            with open(self.__file_path, mode="r", encoding="utf-8") as f:
                 data = json.load(f)
-            return data
+                for key in self.__objects.items():
+                    self.__objects[key] = data
