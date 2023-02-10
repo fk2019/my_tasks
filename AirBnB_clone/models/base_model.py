@@ -15,8 +15,9 @@ class BaseModel():
             for key, value in kwargs.items():
                 if key != "__class__":
                     setattr(self, key, value)
-            self.created_at = datetime.now().strptime(self.created_at, "%Y-%m-%dT%H:%M:%S.%f")
-            self.updated_at = datetime.now().strptime(self.updated_at, "%Y-%m-%dT%H:%M:%S.%f")
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
@@ -29,13 +30,13 @@ class BaseModel():
 
     def save(self):
         """Updates updated_at with current datetime"""
-        self.updated_at = datetime.now().isoformat()
+        self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):
         """Returns a dictionary with all keys/values of __dict__"""
-        d = self.__dict__
+        d = self.__dict__.copy()
         d["__class__"] = type(self).__name__
-        d["created_at"] = datetime.now().isoformat()
-        d["updated_at"] = datetime.now().isoformat()
+        d["created_at"] = self.created_at.isoformat()
+        d["updated_at"] = self.updated_at.isoformat()
         return (d)
