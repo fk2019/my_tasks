@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+sudo apt-get -y install python3-dev
+sudo apt-get -y install libmysqlclient-dev
+sudo apt-get -y install zlib1g-dev
+sudo pip3 install mysqlclient
+sudo pip3 install SQLAlchemy
